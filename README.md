@@ -5,3 +5,7 @@
 
 
 ./gradlew bootRun
+
+
+서버 메인주소
+http://localhost:8080/board/list
