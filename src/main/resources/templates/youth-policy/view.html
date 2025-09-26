@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${policy.title} + ' - 청년 정책 모음'">정책 상세 - 청년 정책 모음</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .policy-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 0;
+        }
+        .info-card {
+            border: none;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .info-item {
+            border-bottom: 1px solid #eee;
+            padding: 15px 0;
+        }
+        .info-item:last-child {
+            border-bottom: none;
+        }
+        .status-badge {
+            font-size: 1rem;
+            padding: 8px 16px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/youth-policy/main">
+                <i class="fas fa-graduation-cap me-2"></i>청년 정책 모음
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/youth-policy/list">정책 목록</a>
+                <a class="nav-link" href="/youth-policy/new">정책 등록</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Policy Header -->
+    <section class="policy-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <div class="d-flex align-items-center mb-3">
+                        <span class="badge bg-light text-dark me-2 fs-6" th:text="${policy.category}">분야</span>
+                        <span class="badge status-badge" 
+                              th:classappend="${policy.status.name() == 'ACTIVE'} ? 'bg-success' : 
+                                             ${policy.status.name() == 'CLOSED'} ? 'bg-danger' : 
+                                             ${policy.status.name() == 'UPCOMING'} ? 'bg-warning text-dark' : 'bg-secondary'"
+                              th:text="${policy.status.description}">상태</span>
+                    </div>
+                    <h1 class="display-5 mb-3" th:text="${policy.title}">정책명</h1>
+                    <p class="lead" th:text="${policy.organizer}">주관기관</p>
+                </div>
+                <div class="col-md-4 text-end">
+                    <div class="btn-group" role="group">
+                        <a th:href="@{/youth-policy/{id}/edit(id=${policy.id})}" class="btn btn-light">
+                            <i class="fas fa-edit me-1"></i>수정
+                        </a>
+                        <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                            <i class="fas fa-trash me-1"></i>삭제
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container my-5">
+        <!-- Success/Error Messages -->
+        <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i>
+            <span th:text="${successMessage}">성공 메시지</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <div class="row">
+            <!-- Main Content -->
+            <div class="col-md-8">
+                <!-- Policy Description -->
+                <div class="card info-card mb-4">
+                    <div class="card-header">
+                        <h4><i class="fas fa-info-circle me-2"></i>정책 개요</h4>
+                    </div>
+                    <div class="card-body">
+                        <p th:text="${policy.description}" class="mb-0">정책 설명</p>
+                    </div>
+                </div>
+
+                <!-- Target & Eligibility -->
+                <div class="card info-card mb-4">
+                    <div class="card-header">
+                        <h4><i class="fas fa-users me-2"></i>대상 및 자격</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="info-item" th:if="${policy.targetAge != null and !policy.targetAge.isEmpty()}">
+                            <div class="row">
+                                <div class="col-sm-3"><strong>대상 연령</strong></div>
+                                <div class="col-sm-9" th:text="${policy.targetAge}">대상 연령</div>
+                            </div>
+                        </div>
+                        <div class="info-item" th:if="${policy.eligibility != null and !policy.eligibility.isEmpty()}">
+                            <div class="row">
+                                <div class="col-sm-3"><strong>신청 자격</strong></div>
+                                <div class="col-sm-9" th:text="${policy.eligibility}">신청 자격</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Benefits -->
+                <div class="card info-card mb-4" th:if="${policy.benefits != null and !policy.benefits.isEmpty()}">
+                    <div class="card-header">
+                        <h4><i class="fas fa-gift me-2"></i>지원 내용</h4>
+                    </div>
+                    <div class="card-body">
+                        <p th:text="${policy.benefits}" class="mb-0">지원 내용</p>
+                    </div>
+                </div>
+
+                <!-- Application Method -->
+                <div class="card info-card mb-4" th:if="${policy.applicationMethod != null and !policy.applicationMethod.isEmpty()}">
+                    <div class="card-header">
+                        <h4><i class="fas fa-clipboard-list me-2"></i>신청 방법</h4>
+                    </div>
+                    <div class="card-body">
+                        <p th:text="${policy.applicationMethod}" class="mb-0">신청 방법</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-md-4">
+                <!-- Quick Info -->
+                <div class="card info-card mb-4">
+                    <div class="card-header">
+                        <h5><i class="fas fa-calendar-alt me-2"></i>주요 정보</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="info-item" th:if="${policy.startDate != null}">
+                            <div class="d-flex justify-content-between">
+                                <span><i class="fas fa-play text-success me-1"></i>신청 시작</span>
+                                <strong th:text="${#temporals.format(policy.startDate, 'yyyy-MM-dd')}">시작일</strong>
+                            </div>
+                        </div>
+                        <div class="info-item" th:if="${policy.endDate != null}">
+                            <div class="d-flex justify-content-between">
+                                <span><i class="fas fa-stop text-danger me-1"></i>신청 마감</span>
+                                <strong th:text="${#temporals.format(policy.endDate, 'yyyy-MM-dd')}">마감일</strong>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="d-flex justify-content-between">
+                                <span><i class="fas fa-clock me-1"></i>등록일</span>
+                                <strong th:text="${#temporals.format(policy.createdAt, 'yyyy-MM-dd')}">등록일</strong>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="d-flex justify-content-between">
+                                <span><i class="fas fa-edit me-1"></i>수정일</span>
+                                <strong th:text="${#temporals.format(policy.updatedAt, 'yyyy-MM-dd')}">수정일</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="card info-card mb-4" th:if="${policy.contactInfo != null and !policy.contactInfo.isEmpty()}">
+                    <div class="card-header">
+                        <h5><i class="fas fa-phone me-2"></i>문의처</h5>
+                    </div>
+                    <div class="card-body">
+                        <p th:text="${policy.contactInfo}" class="mb-0">문의처 정보</p>
+                    </div>
+                </div>
+
+                <!-- Website Link -->
+                <div class="card info-card mb-4" th:if="${policy.websiteUrl != null and !policy.websiteUrl.isEmpty()}">
+                    <div class="card-header">
+                        <h5><i class="fas fa-external-link-alt me-2"></i>관련 링크</h5>
+                    </div>
+                    <div class="card-body">
+                        <a th:href="${policy.websiteUrl}" target="_blank" class="btn btn-primary w-100">
+                            <i class="fas fa-external-link-alt me-1"></i>공식 웹사이트 방문
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="card info-card">
+                    <div class="card-body">
+                        <div class="d-grid gap-2">
+                            <a href="/youth-policy/list" class="btn btn-outline-primary">
+                                <i class="fas fa-list me-1"></i>목록으로 돌아가기
+                            </a>
+                            <a th:href="@{/youth-policy/list(category=${policy.category})}" class="btn btn-outline-secondary">
+                                <i class="fas fa-tag me-1"></i>같은 분야 정책 보기
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">정책 삭제 확인</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>정말로 이 정책을 삭제하시겠습니까?</p>
+                    <p class="text-muted">삭제된 정책은 복구할 수 없습니다.</p>
+                    <p><strong th:text="${policy.title}">정책명</strong></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                    <form th:action="@{/youth-policy/{id}/delete(id=${policy.id})}" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-danger">삭제</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light py-4">
+        <div class="container text-center">
+            <p>&copy; 2024 청년 정책 모음 사이트. 모든 권리 보유.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

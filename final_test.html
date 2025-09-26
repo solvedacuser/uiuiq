@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>청년 정책 모음 사이트</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 0;
+        }
+        .category-card {
+            transition: transform 0.3s ease;
+            border: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .category-card:hover {
+            transform: translateY(-5px);
+        }
+        .policy-card {
+            border-left: 4px solid #667eea;
+        }
+        .stats-card {
+            background: linear-gradient(45deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/youth-policy/main">
+                <i class="fas fa-graduation-cap me-2"></i>청년 정책 모음
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/youth-policy/list">정책 목록</a>
+                <a class="nav-link" href="/youth-policy/new">정책 등록</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section text-center">
+        <div class="container">
+            <h1 class="display-4 mb-4">청년을 위한 정책 정보</h1>
+            <p class="lead mb-4">다양한 청년 지원 정책을 한 곳에서 확인하고 신청하세요</p>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <form action="/youth-policy/list" method="get" class="d-flex">
+                        <input class="form-control form-control-lg me-2" type="search" name="keyword" 
+                               placeholder="정책명이나 키워드를 입력하세요..." aria-label="Search">
+                        <button class="btn btn-light btn-lg" type="submit">
+                            <i class="fas fa-search"></i> 검색
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row text-center mb-5">
+                <div class="col-md-4">
+                    <div class="card stats-card p-4">
+                        <h3>5</h3>
+                        <p class="mb-0">진행중인 정책</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card stats-card p-4">
+                        <h3>7</h3>
+                        <p class="mb-0">정책 분야</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card stats-card p-4">
+                        <h3>10</h3>
+                        <p class="mb-0">최신 정책</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center mb-5">정책 분야별 보기</h2>
+            <div class="row g-4">
+                <div class="col-md-3">
+                    <div class="card category-card h-100 text-center p-4">
+                        <div class="card-body">
+                            <i class="fas fa-briefcase fa-3x text-primary mb-3"></i>
+                            <h5 class="card-title">취업</h5>
+                            <p class="text-muted">0개 정책</p>
+                            <a href="/youth-policy/list?category=%EC%B7%A8%EC%97%85" class="btn btn-outline-primary">보기</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card category-card h-100 text-center p-4">
+                        <div class="card-body">
+                            <i class="fas fa-rocket fa-3x text-success mb-3"></i>
+                            <h5 class="card-title">창업</h5>
+                            <p class="text-muted">0개 정책</p>
+                            <a href="/youth-policy/list?category=%EC%B0%BD%EC%97%85" class="btn btn-outline-primary">보기</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card category-card h-100 text-center p-4">
+                        <div class="card-body">
+                            <i class="fas fa-home fa-3x text-warning mb-3"></i>
+                            <h5 class="card-title">주거</h5>
+                            <p class="text-muted">0개 정책</p>
+                            <a href="/youth-policy/list?category=%EC%A3%BC%EA%B1%B0" class="btn btn-outline-primary">보기</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card category-card h-100 text-center p-4">
+                        <div class="card-body">
+                            <i class="fas fa-heart fa-3x text-danger mb-3"></i>
+                            <h5 class="card-title">복지</h5>
+                            <p class="text-muted">0개 정책</p>
+                            <a href="/youth-policy/list?category=%EB%B3%B5%EC%A7%80" class="btn btn-outline-primary">보기</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card category-card h-100 text-center p-4">
+                        <div class="card-body">
+                            <i class="fas fa-graduation-cap fa-3x text-info mb-3"></i>
+                            <h5 class="card-title">교육</h5>
+                            <p class="text-muted">0개 정책</p>
+                            <a href="/youth-policy/list?category=%EA%B5%90%EC%9C%A1" class="btn btn-outline-primary">보기</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card category-card h-100 text-center p-4">
+                        <div class="card-body">
+                            <i class="fas fa-palette fa-3x text-secondary mb-3"></i>
+                            <h5 class="card-title">문화</h5>
+                            <p class="text-muted">0개 정책</p>
+                            <a href="/youth-policy/list?category=%EB%AC%B8%ED%99%94" class="btn btn-outline-primary">보기</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card category-card h-100 text-center p-4">
+                        <div class="card-body">
+                            <i class="fas fa-users fa-3x text-dark mb-3"></i>
+                            <h5 class="card-title">참여·권리</h5>
+                            <p class="text-muted">0개 정책</p>
+                            <a href="/youth-policy/list?category=%EC%B0%B8%EC%97%AC%C2%B7%EA%B6%8C%EB%A6%AC" class="btn btn-outline-primary">보기</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Latest Policies Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>최신 정책</h2>
+                <a href="/youth-policy/list" class="btn btn-primary">전체 보기</a>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="card policy-card h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <span class="badge bg-primary">취업</span>
+                                <!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>오류 - 청년 정책 모음</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .error-container {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .error-content {
+            text-align: center;
+            max-width: 600px;
+        }
+        .error-icon {
+            font-size: 6rem;
+            color: #dc3545;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/youth-policy/main">
+                <i class="fas fa-graduation-cap me-2"></i>청년 정책 모음
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/youth-policy/list">정책 목록</a>
+                <a class="nav-link" href="/youth-policy/new">정책 등록</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="error-container">
+            <div class="error-content">
+                <i class="fas fa-exclamation-triangle error-icon"></i>
+                
+                <h1 class="display-4 mb-3">오류 발생</h1>
+                
+                <p class="lead mb-4">예기치 않은 오류가 발생했습니다.</p>
+                
+                
+                
+                <div class="alert alert-info">
+                    <strong>상세 정보:</strong> <span>알 수 없는 오류가 발생했습니다.</span>
+                </div>
+                
+                <div class="mt-4">
+                    <a href="/youth-policy/main" class="btn btn-primary btn-lg me-2">
+                        <i class="fas fa-home me-1"></i>메인 페이지로
+                    </a>
+                    <a href="/youth-policy/list" class="btn btn-outline-primary btn-lg">
+                        <i class="fas fa-list me-1"></i>정책 목록보기
+                    </a>
+                </div>
+                
+                <div class="mt-4">
+                    <small class="text-muted">
+                        문제가 계속 발생하면 관리자에게 문의해주세요.
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light py-4">
+        <div class="container text-center">
+            <p>&copy; 2024 청년 정책 모음 사이트. 모든 권리 보유.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
