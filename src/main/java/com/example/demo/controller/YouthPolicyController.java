@@ -191,6 +191,88 @@ public class YouthPolicyController {
         }
     }
     
+    // 온통청년 API 관리자 페이지
+    @GetMapping("/admin")
+    public String adminPage(Model model) {
+        try {
+            Map<String, Object> status = youthPolicyService.getDatabaseStatus();
+            model.addAttribute("dbStatus", status);
+            return "youth-policy/admin";
+        } catch (Exception e) {
+            log.error("관리자 페이지 로딩 중 오류 발생", e);
+            model.addAttribute("errorMessage", "관리자 페이지를 불러오는 중 오류가 발생했습니다.");
+            return "error";
+        }
+    }
+    
+    // 온통청년 API에서 데이터 로드 (기존 데이터 유지)
+    @PostMapping("/admin/load-api-data")
+    public String loadApiData(RedirectAttributes redirectAttributes) {
+        try {
+            log.info("=== API 데이터 로드 시작 ===");
+            int loadedCount = youthPolicyService.loadPoliciesFromApi();
+            log.info("=== API 데이터 로드 완료: {}개 ===", loadedCount);
+            
+            if (loadedCount > 0) {
+                redirectAttributes.addFlashAttribute("successMessage", 
+                    String.format("온통청년 API에서 %d개의 정책을 성공적으로 로드했습니다.", loadedCount));
+            } else {
+                redirectAttributes.addFlashAttribute("errorMessage", 
+                    "API에서 가져온 데이터가 없습니다. API 키를 확인하거나 로그를 확인해주세요.");
+            }
+        } catch (Exception e) {
+            log.error("온통청년 API 데이터 로드 중 오류 발생", e);
+            redirectAttributes.addFlashAttribute("errorMessage", 
+                "온통청년 API 데이터 로드 중 오류가 발생했습니다: " + e.getMessage());
+        }
+        
+        return "redirect:/youth-policy/admin";
+    }
+    
+    // 데이터베이스 초기화 후 온통청년 API 데이터 로드
+    @PostMapping("/admin/refresh-all-data")
+    public String refreshAllData(RedirectAttributes redirectAttributes) {
+        try {
+            int loadedCount = youthPolicyService.refreshAllPoliciesFromApi();
+            redirectAttributes.addFlashAttribute("successMessage", 
+                String.format("데이터베이스를 초기화하고 온통청년 API에서 %d개의 정책을 새로 로드했습니다.", loadedCount));
+        } catch (Exception e) {
+            log.error("데이터베이스 초기화 및 온통청년 API 데이터 로드 중 오류 발생", e);
+            redirectAttributes.addFlashAttribute("errorMessage", 
+                "데이터 초기화 중 오류가 발생했습니다: " + e.getMessage());
+        }
+        
+        return "redirect:/youth-policy/admin";
+    }
+    
+    // 데이터베이스 상태 확인 API
+    @GetMapping("/admin/status")
+    @ResponseBody
+    public Map<String, Object> getDatabaseStatus() {
+        return youthPolicyService.getDatabaseStatus();
+    }
+    
+    // 온통청년 API 연결 테스트
+    @GetMapping("/admin/test-api")
+    @ResponseBody
+    public Map<String, Object> testApiConnection() {
+        try {
+            boolean isConnected = youthPolicyService.testApiConnection();
+            return Map.of(
+                "success", isConnected,
+                "message", isConnected ? "API 연결 성공!" : "API 연결 실패",
+                "timestamp", java.time.LocalDateTime.now()
+            );
+        } catch (Exception e) {
+            log.error("API 테스트 중 오류", e);
+            return Map.of(
+                "success", false,
+                "message", "API 테스트 중 오류: " + e.getMessage(),
+                "timestamp", java.time.LocalDateTime.now()
+            );
+        }
+    }
+    
     // 디버깅용 엔드포인트
     @GetMapping("/debug/categories")
     @ResponseBody
@@ -213,6 +295,59 @@ public class YouthPolicyController {
             .count());
         
         return debug;
+    }
+    
+    // API 호출 테스트 엔드포인트
+    @GetMapping("/debug/test-api-call")
+    @ResponseBody
+    public Map<String, Object> testApiCall() {
+        Map<String, Object> result = new HashMap<>();
+        
+        try {
+            log.info("===== API 호출 테스트 시작 =====");
+            int count = youthPolicyService.loadPoliciesFromApi();
+            result.put("success", true);
+            result.put("loadedCount", count);
+            result.put("totalPolicies", youthPolicyRepository.count());
+            result.put("message", "API 호출 성공: " + count + "개 로드됨");
+            log.info("===== API 호출 테스트 완료: {}개 =====", count);
+        } catch (Exception e) {
+            log.error("===== API 호출 테스트 실패 =====", e);
+            result.put("success", false);
+            result.put("error", e.getMessage());
+            result.put("errorType", e.getClass().getName());
+            result.put("stackTrace", e.getStackTrace()[0].toString());
+            result.put("message", "API 호출 실패: " + e.getMessage());
+            
+            // Caused by 확인
+            if (e.getCause() != null) {
+                result.put("cause", e.getCause().getMessage());
+                result.put("causeType", e.getCause().getClass().getName());
+            }
+        }
+        
+        return result;
+    }
+    
+    // API 연결만 테스트 (데이터 저장 안함)
+    @GetMapping("/debug/raw-api-test")
+    @ResponseBody
+    public Map<String, Object> rawApiTest() {
+        Map<String, Object> result = new HashMap<>();
+        
+        try {
+            log.info("===== Raw API 테스트 시작 =====");
+            boolean connected = youthPolicyService.testApiConnection();
+            result.put("apiConnected", connected);
+            result.put("message", connected ? "API 연결 성공" : "API 연결 실패");
+            log.info("===== Raw API 테스트 완료: {} =====", connected);
+        } catch (Exception e) {
+            log.error("===== Raw API 테스트 실패 =====", e);
+            result.put("success", false);
+            result.put("error", e.getMessage());
+        }
+        
+        return result;
     }
 }
 

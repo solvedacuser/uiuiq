@@ -84,8 +84,8 @@
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
                 <h4>
-                    <span th:if="${keyword != null and !keyword.isEmpty()}" th:text="'&quot;' + ${keyword} + '&quot; 검색 결과'">검색 결과</span>
-                    <span th:if="${selectedCategory != null and !selectedCategory.isEmpty()}" th:text="${selectedCategory} + ' 분야 정책'">분야별 정책</span>
+                    <span th:if="${keyword != null and !keyword.isEmpty()}" th:text="|&quot;${keyword}&quot; 검색 결과|">검색 결과</span>
+                    <span th:if="${selectedCategory != null and !selectedCategory.isEmpty()}" th:text="|${selectedCategory} 분야 정책|">분야별 정책</span>
                     <span th:if="${keyword == null and selectedCategory == null}">전체 정책</span>
                 </h4>
                 <p class="text-muted mb-0">
@@ -144,7 +144,7 @@
                                     <div class="mb-3">
                                         <div th:if="${policy.startDate != null and policy.endDate != null}">
                                             <small class="text-muted d-block">신청 기간</small>
-                                            <strong th:text="${#temporals.format(policy.startDate, 'yyyy-MM-dd')} + ' ~ ' + ${#temporals.format(policy.endDate, 'yyyy-MM-dd')}">
+                                            <strong th:text="|${#temporals.format(policy.startDate, 'yyyy-MM-dd')} ~ ${#temporals.format(policy.endDate, 'yyyy-MM-dd')}|">
                                                 신청 기간
                                             </strong>
                                         </div>

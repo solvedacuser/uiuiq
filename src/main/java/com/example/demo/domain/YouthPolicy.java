@@ -45,20 +45,20 @@ public class YouthPolicy {
     private String benefits; // 지원 내용
     
     @NotBlank(message = "주관 기관은 필수입니다")
-    @Column(length = 100)
+    @Column(length = 200)
     private String organizer; // 주관 기관
     
-    @Column(length = 200)
+    @Column(columnDefinition = "TEXT")
     private String applicationMethod; // 신청 방법
     
     private LocalDate startDate; // 신청 시작일
     
     private LocalDate endDate; // 신청 마감일
     
-    @Column(length = 500)
+    @Column(columnDefinition = "TEXT")
     private String websiteUrl; // 관련 웹사이트 URL
     
-    @Column(length = 500)
+    @Column(columnDefinition = "TEXT")
     private String contactInfo; // 문의처
     
     @NotNull(message = "정책 상태는 필수입니다")
