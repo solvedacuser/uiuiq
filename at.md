@@ -88,6 +88,17 @@ src/main/resources/
 <th:block th:fragment="scripts">       <!-- 공통 스크립트 -->
 ```
 
+---
 
+## 🔌 온통청년 API 연동
 
+### API 기본 정보
+- **API 제공**: 청년정책조정위원회
+- **API URL**: `https://www.youthcenter.go.kr/go/ythip/getPlcy`
+- **응답 형식**: XML
+- **요청 파라미터**:
+  - `apiKeyNm`: API 인증키
+  - `pageNum`: 페이지 번호
+  - `pageSize`: 페이지당 데이터 수
+  - `rtnType`: 응답 타입 (json)
 
