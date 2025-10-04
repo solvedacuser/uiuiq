@@ -75,41 +75,6 @@ public class YouthPolicyController {
         }
     }
     
-    // 정책 등록 폼
-    @GetMapping("/new")
-    public String newForm(Model model) {
-        model.addAttribute("policy", new YouthPolicy());
-        model.addAttribute("categories", youthPolicyService.getAvailableCategories());
-        model.addAttribute("statuses", YouthPolicy.PolicyStatus.values());
-        return "youth-policy/form";
-    }
-    
-    // 정책 등록 처리
-    @PostMapping("/new")
-    public String create(@Valid @ModelAttribute("policy") YouthPolicy policy,
-                        BindingResult bindingResult,
-                        Model model,
-                        RedirectAttributes redirectAttributes) {
-        
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("categories", youthPolicyService.getAvailableCategories());
-            model.addAttribute("statuses", YouthPolicy.PolicyStatus.values());
-            return "youth-policy/form";
-        }
-        
-        try {
-            YouthPolicy savedPolicy = youthPolicyService.save(policy);
-            redirectAttributes.addFlashAttribute("successMessage", "정책이 성공적으로 등록되었습니다.");
-            return "redirect:/youth-policy/" + savedPolicy.getId();
-        } catch (Exception e) {
-            log.error("정책 등록 중 오류 발생", e);
-            model.addAttribute("errorMessage", "정책 등록 중 오류가 발생했습니다.");
-            model.addAttribute("categories", youthPolicyService.getAvailableCategories());
-            model.addAttribute("statuses", YouthPolicy.PolicyStatus.values());
-            return "youth-policy/form";
-        }
-    }
-    
     // 정책 수정 폼
     @GetMapping("/{id}/edit")
     public String editForm(@PathVariable Long id, Model model) {
@@ -164,6 +129,22 @@ public class YouthPolicyController {
         }
         
         return "redirect:/youth-policy/list";
+    }
+    
+    // 검색 순위 TOP 5 페이지
+    @GetMapping("/ranking")
+    public String ranking(Model model) {
+        try {
+            List<YouthPolicy> topPolicies = youthPolicyService.findTop5ByInqCnt();
+            model.addAttribute("topPolicies", topPolicies);
+            return "youth-policy/ranking";
+        } catch (Exception e) {
+            log.error("검색 순위 페이지 로딩 중 오류 발생", e);
+            model.addAttribute("errorTitle", "페이지 로딩 오류");
+            model.addAttribute("errorDescription", "검색 순위 페이지를 불러오는 중 오류가 발생했습니다.");
+            model.addAttribute("errorMessage", e.getMessage());
+            return "error";
+        }
     }
     
     // 메인 페이지 리다이렉트

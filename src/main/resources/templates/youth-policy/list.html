@@ -58,11 +58,6 @@
                     총 <strong th:text="${totalElements}">0</strong>개의 정책이 있습니다.
                 </p>
             </div>
-            <div>
-                <a href="/youth-policy/new" class="btn btn-success">
-                    <i class="fas fa-plus me-1"></i>새 정책 등록
-                </a>
-            </div>
         </div>
 
         <!-- Success/Error Messages -->
@@ -141,10 +136,7 @@
         <div th:if="${#lists.isEmpty(policies.content)}" class="text-center py-5">
             <i class="fas fa-search fa-3x text-muted mb-3"></i>
             <h4 class="text-muted">검색 결과가 없습니다</h4>
-            <p class="text-muted">다른 키워드로 검색하시거나 새로운 정책을 등록해보세요.</p>
-            <a href="/youth-policy/new" class="btn btn-primary">
-                <i class="fas fa-plus me-1"></i>새 정책 등록
-            </a>
+            <p class="text-muted">다른 키워드로 검색해보세요.</p>
         </div>
 
         <!-- Pagination -->

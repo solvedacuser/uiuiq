@@ -61,6 +61,9 @@ public class YouthPolicy {
     @Column(columnDefinition = "TEXT")
     private String contactInfo; // 문의처
     
+    @Column(name = "inq_cnt")
+    private Integer inqCnt; // 조회수 (검색수)
+    
     @NotNull(message = "정책 상태는 필수입니다")
     @Enumerated(EnumType.STRING)
     private PolicyStatus status; // 정책 상태

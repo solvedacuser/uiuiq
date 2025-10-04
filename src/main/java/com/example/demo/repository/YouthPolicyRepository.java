@@ -41,5 +41,9 @@ public interface YouthPolicyRepository extends JpaRepository<YouthPolicy, Long> 
     
     // 최신 정책 조회 (상위 N개)
     List<YouthPolicy> findTop10ByOrderByCreatedAtDesc();
+    
+    // 조회수 기준 TOP 5 정책 조회
+    @Query("SELECT y FROM YouthPolicy y WHERE y.inqCnt IS NOT NULL ORDER BY y.inqCnt DESC")
+    List<YouthPolicy> findTop5ByOrderByInqCntDesc(Pageable pageable);
 }
 

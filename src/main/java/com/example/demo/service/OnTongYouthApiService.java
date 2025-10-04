@@ -172,6 +172,15 @@ public class OnTongYouthApiService {
                     String category = lclsfNm.isEmpty() ? "기타" : 
                         (mclsfNm.isEmpty() ? lclsfNm : lclsfNm);
                     
+                    // 조회수(검색수) 파싱
+                    String inqCntStr = getTextValue(policyNode, "inqCnt", "0");
+                    Integer inqCnt = null;
+                    try {
+                        inqCnt = Integer.parseInt(inqCntStr.replaceAll("[^0-9]", ""));
+                    } catch (NumberFormatException e) {
+                        log.debug("조회수 파싱 실패: {}", inqCntStr);
+                    }
+                    
                     YouthPolicy policy = YouthPolicy.builder()
                             .title(getTextValue(policyNode, "plcyNm", "정책명 없음"))
                             .category(category)
@@ -185,6 +194,7 @@ public class OnTongYouthApiService {
                             .endDate(parseDate(getTextValue(policyNode, "bizPrdEndYmd", "")))
                             .websiteUrl(getTextValue(policyNode, "aplyUrlAddr", ""))
                             .contactInfo(getTextValue(policyNode, "operInstPicNm", "문의처 없음"))
+                            .inqCnt(inqCnt)
                             .status(YouthPolicy.PolicyStatus.ACTIVE)
                             .build();
                     
@@ -270,6 +280,8 @@ public class OnTongYouthApiService {
         for (int i = 1; i <= 100; i++) {
             String category = categories[i % categories.length];
             String organizer = organizers[i % organizers.length];
+            // 조회수는 랜덤하게 생성 (1000~50000 사이)
+            Integer inqCnt = 1000 + (i * 487) % 49000;
             
             fallbackPolicies.add(YouthPolicy.builder()
                     .title(String.format("청년 정책 %d - %s 지원", i, category))
@@ -286,6 +298,7 @@ public class OnTongYouthApiService {
                     .endDate(LocalDate.now().plusMonths((i % 12) + 1))
                     .websiteUrl(String.format("https://www.youthpolicy%d.go.kr", i))
                     .contactInfo(String.format("1%03d", 300 + (i % 100)))
+                    .inqCnt(inqCnt)
                     .status(i % 10 == 0 ? YouthPolicy.PolicyStatus.UPCOMING : 
                            (i % 15 == 0 ? YouthPolicy.PolicyStatus.CLOSED : YouthPolicy.PolicyStatus.ACTIVE))
                     .build());
@@ -305,6 +318,7 @@ public class OnTongYouthApiService {
                 .endDate(LocalDate.now().plusMonths(12))
                 .websiteUrl("https://www.work.go.kr")
                 .contactInfo("1350")
+                .inqCnt(45820)
                 .status(YouthPolicy.PolicyStatus.ACTIVE)
                 .build());
         
@@ -321,6 +335,7 @@ public class OnTongYouthApiService {
                 .endDate(LocalDate.now().plusMonths(12))
                 .websiteUrl("https://www.molit.go.kr")
                 .contactInfo("1599-0001")
+                .inqCnt(38950)
                 .status(YouthPolicy.PolicyStatus.ACTIVE)
                 .build());
         
@@ -337,6 +352,7 @@ public class OnTongYouthApiService {
                 .endDate(LocalDate.of(2025, 12, 31))
                 .websiteUrl("https://www.moef.go.kr")
                 .contactInfo("044-215-2114")
+                .inqCnt(52100)
                 .status(YouthPolicy.PolicyStatus.ACTIVE)
                 .build());
         
@@ -353,6 +369,7 @@ public class OnTongYouthApiService {
                 .endDate(LocalDate.of(2025, 10, 31))
                 .websiteUrl("https://www.k-startup.go.kr")
                 .contactInfo("1357")
+                .inqCnt(31450)
                 .status(YouthPolicy.PolicyStatus.ACTIVE)
                 .build());
         

@@ -123,6 +123,12 @@ public class YouthPolicyService {
         return List.of("취업", "창업", "주거", "복지", "교육", "문화", "참여·권리");
     }
     
+    // 조회수 기준 TOP 5 정책 조회
+    public List<YouthPolicy> findTop5ByInqCnt() {
+        Pageable pageable = PageRequest.of(0, 5);
+        return youthPolicyRepository.findTop5ByOrderByInqCntDesc(pageable);
+    }
+    
     /**
      * 카테고리별 정책 수 조회 (디버그용)
      */

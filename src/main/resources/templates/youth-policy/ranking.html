@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{fragments/layout :: head}"></th:block>
+    <title>정책 검색 순위 TOP 5 - 청년 정책 모음</title>
+    <style>
+        .ranking-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4rem 0 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .ranking-card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+        
+        .ranking-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .rank-badge {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        
+        .rank-1 { background: linear-gradient(135deg, #FFD700, #FFA500); }
+        .rank-2 { background: linear-gradient(135deg, #C0C0C0, #808080); }
+        .rank-3 { background: linear-gradient(135deg, #CD7F32, #8B4513); }
+        .rank-4, .rank-5 { background: linear-gradient(135deg, #667eea, #764ba2); }
+        
+        .inq-count {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .medal-icon {
+            font-size: 1.2rem;
+            margin-right: 0.3rem;
+        }
+        
+        .card-title-ranking {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+        }
+        
+        .empty-state {
+            padding: 5rem 0;
+        }
+        
+        .crown-animation {
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+    <!-- Ranking Header -->
+    <section class="ranking-header text-center">
+        <div class="container">
+            <h1 class="display-4 mb-3">
+                <i class="fas fa-trophy crown-animation me-3"></i>
+                정책 검색 순위 TOP 5
+            </h1>
+            <p class="lead">가장 많이 검색된 청년 정책을 확인하세요</p>
+        </div>
+    </section>
+
+    <div class="container my-5">
+        <!-- TOP 5 정책 목록 -->
+        <div th:if="${topPolicies != null and !topPolicies.isEmpty()}">
+            <div th:each="policy, iterStat : ${topPolicies}" class="ranking-card">
+                <div class="card-body p-4">
+                    <div class="row align-items-center">
+                        <!-- 순위 배지 -->
+                        <div class="col-md-1 text-center">
+                            <div class="rank-badge" th:classappend="'rank-' + ${iterStat.count}">
+                                <span th:if="${iterStat.count == 1}">
+                                    <i class="fas fa-crown medal-icon"></i>1
+                                </span>
+                                <span th:if="${iterStat.count == 2}">
+                                    <i class="fas fa-medal medal-icon"></i>2
+                                </span>
+                                <span th:if="${iterStat.count == 3}">
+                                    <i class="fas fa-medal medal-icon"></i>3
+                                </span>
+                                <span th:if="${iterStat.count > 3}" th:text="${iterStat.count}">4</span>
+                            </div>
+                        </div>
+                        
+                        <!-- 정책 정보 -->
+                        <div class="col-md-8">
+                            <div class="d-flex align-items-center mb-2">
+                                <span class="badge bg-primary me-2" th:text="${policy.category}">분야</span>
+                                <span class="badge me-2" 
+                                      th:classappend="${policy.status.name() == 'ACTIVE'} ? 'bg-success' : (${policy.status.name() == 'CLOSED'} ? 'bg-danger' : (${policy.status.name() == 'UPCOMING'} ? 'bg-warning text-dark' : 'bg-secondary'))"
+                                      th:text="${policy.status.description}">상태</span>
+                                <small class="text-muted" th:if="${policy.targetAge != null}" th:text="'대상: ' + ${policy.targetAge}">대상 연령</small>
+                            </div>
+                            
+                            <h5 class="card-title-ranking">
+                                <a th:href="@{/youth-policy/{id}(id=${policy.id})}" 
+                                   class="text-decoration-none text-dark" th:text="${policy.title}">정책명</a>
+                            </h5>
+                            
+                            <p class="card-text text-muted mb-2" 
+                               th:text="${#strings.abbreviate(policy.description, 120)}">정책 설명</p>
+                            
+                            <div class="d-flex align-items-center text-muted">
+                                <i class="fas fa-building me-1"></i>
+                                <span th:text="${policy.organizer}">주관기관</span>
+                            </div>
+                        </div>
+                        
+                        <!-- 조회수 및 액션 -->
+                        <div class="col-md-3 text-end">
+                            <div class="mb-3">
+                                <small class="text-muted d-block">검색 수</small>
+                                <div class="inq-count">
+                                    <i class="fas fa-search me-2"></i>
+                                    <span th:text="${#numbers.formatInteger(policy.inqCnt, 0, 'COMMA')}">0</span>
+                                </div>
+                            </div>
+                            <a th:href="@{/youth-policy/{id}(id=${policy.id})}" 
+                               class="btn btn-primary btn-sm w-100">
+                                <i class="fas fa-eye me-1"></i>자세히 보기
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div th:if="${topPolicies == null or topPolicies.isEmpty()}" class="empty-state text-center">
+            <i class="fas fa-chart-bar fa-4x text-muted mb-4"></i>
+            <h4 class="text-muted mb-3">아직 순위 데이터가 없습니다</h4>
+            <p class="text-muted mb-4">검색 수 데이터가 수집되면 여기에 표시됩니다.</p>
+            <a href="/youth-policy/list" class="btn btn-primary">
+                <i class="fas fa-list me-1"></i>전체 정책 보기
+            </a>
+        </div>
+
+        <!-- 추가 정보 -->
+        <div class="mt-5 p-4 bg-light rounded">
+            <h5><i class="fas fa-info-circle me-2"></i>검색 순위 안내</h5>
+            <ul class="mb-0">
+                <li>검색 순위는 온통청년 API의 조회수(검색수) 데이터를 기반으로 집계됩니다.</li>
+                <li>가장 많은 사람들이 관심을 가지고 검색한 정책을 한눈에 확인할 수 있습니다.</li>
+                <li>순위 데이터는 API 연동 시 자동으로 업데이트됩니다.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+
+    <!-- Scripts -->
+    <th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>
+

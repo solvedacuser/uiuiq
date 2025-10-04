@@ -2,7 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:replace="~{fragments/layout :: head}"></th:block>
-    <title th:text="${policy.id != null ? '정책 수정' : '정책 등록'} + ' - 청년 정책 모음'">정책 등록/수정 - 청년 정책 모음</title>
+    <title>정책 수정 - 청년 정책 모음</title>
 </head>
 <body>
     <!-- Navigation -->
@@ -11,8 +11,8 @@
     <!-- Form Header -->
     <section class="form-header text-center">
         <div class="container">
-            <h1 class="display-5" th:text="${policy.id != null ? '정책 수정' : '새 정책 등록'}">정책 등록</h1>
-            <p class="lead" th:text="${policy.id != null ? '정책 정보를 수정하세요' : '새로운 청년 정책을 등록하세요'}">정책 정보 입력</p>
+            <h1 class="display-5">정책 수정</h1>
+            <p class="lead">정책 정보를 수정하세요</p>
         </div>
     </section>
 
@@ -36,7 +36,7 @@
             <div class="col-md-10">
                 <div class="card form-card">
                     <div class="card-body p-4">
-                        <form th:action="${policy.id != null ? '/youth-policy/' + policy.id + '/edit' : '/youth-policy/new'}" 
+                        <form th:action="'/youth-policy/' + ${policy.id} + '/edit'" 
                               method="post" th:object="${policy}">
                             
                             <div class="row">
@@ -213,8 +213,7 @@
                                             <i class="fas fa-arrow-left me-1"></i>취소
                                         </a>
                                         <button type="submit" class="btn btn-primary">
-                                            <i class="fas fa-save me-1"></i>
-                                            <span th:text="${policy.id != null ? '수정' : '등록'}">등록</span>
+                                            <i class="fas fa-save me-1"></i>수정
                                         </button>
                                     </div>
                                 </div>
