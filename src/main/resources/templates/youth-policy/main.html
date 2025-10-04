@@ -53,32 +53,6 @@
         </div>
     </section>
 
-    <!-- Categories Section -->
-    <section class="py-5 bg-light">
-        <div class="container">
-            <h2 class="text-center mb-5">정책 분야별 보기</h2>
-            <div class="row g-4">
-                <div class="col-md-3" th:each="category : ${categories}" th:if="${categories != null}">
-                    <div class="card category-card h-100 text-center p-4">
-                        <div class="card-body">
-                            <i th:class="${category == '취업'} ? 'fas fa-briefcase fa-3x text-primary mb-3' : 
-                                         (${category == '창업'} ? 'fas fa-rocket fa-3x text-success mb-3' :
-                                         (${category == '주거'} ? 'fas fa-home fa-3x text-warning mb-3' :
-                                         (${category == '복지'} ? 'fas fa-heart fa-3x text-danger mb-3' :
-                                         (${category == '교육'} ? 'fas fa-graduation-cap fa-3x text-info mb-3' :
-                                         (${category == '문화'} ? 'fas fa-palette fa-3x text-secondary mb-3' :
-                                         (${category == '참여·권리'} ? 'fas fa-users fa-3x text-dark mb-3' :
-                                         'fas fa-star fa-3x text-secondary mb-3'))))))"></i>
-                            <h5 class="card-title" th:text="${category}">분야명</h5>
-                            <p class="text-muted" th:text="${categoryStats != null && categoryStats[category] != null ? categoryStats[category] + '개 정책' : '0개 정책'}">정책 수</p>
-                            <a th:href="@{/youth-policy/list(category=${category})}" class="btn btn-outline-primary">보기</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Latest Policies Section -->
     <section class="py-5">
         <div class="container">
