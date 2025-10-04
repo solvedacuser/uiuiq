@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Common Head Fragment -->
+    <th:block th:fragment="head">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+        <link rel="stylesheet" th:href="@{/css/common.css}">
+    </th:block>
+</head>
+<body>
+    <!-- Navigation Bar Fragment -->
+    <nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/youth-policy/main">
+                <i class="fas fa-graduation-cap me-2"></i>청년 정책 모음
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/youth-policy/main">
+                            <i class="fas fa-home me-1"></i>홈
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/youth-policy/list">
+                            <i class="fas fa-list me-1"></i>정책 목록
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/youth-policy/new">
+                            <i class="fas fa-plus me-1"></i>정책 등록
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/board/list">
+                            <i class="fas fa-comments me-1"></i>게시판
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/youth-policy/admin">
+                            <i class="fas fa-cog me-1"></i>관리자
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Footer Fragment -->
+    <footer th:fragment="footer" class="bg-dark text-light py-4 mt-auto">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5><i class="fas fa-graduation-cap me-2"></i>청년 정책 모음</h5>
+                    <p class="text-muted">청년을 위한 다양한 정책 정보를 한눈에</p>
+                </div>
+                <div class="col-md-3">
+                    <h6>바로가기</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="/youth-policy/main" class="text-light text-decoration-none">홈</a></li>
+                        <li><a href="/youth-policy/list" class="text-light text-decoration-none">정책 목록</a></li>
+                        <li><a href="/youth-policy/new" class="text-light text-decoration-none">정책 등록</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6>문의</h6>
+                    <p class="text-muted mb-0">
+                        <i class="fas fa-envelope me-2"></i>support@youthpolicy.kr<br>
+                        <i class="fas fa-phone me-2"></i>02-1234-5678
+                    </p>
+                </div>
+            </div>
+            <hr class="bg-light">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2024 청년 정책 모음 사이트. 모든 권리 보유.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts Fragment -->
+    <th:block th:fragment="scripts">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    </th:block>
+</body>
+</html>
+

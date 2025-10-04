@@ -11,6 +11,9 @@
 - 정책 등록: http://localhost:8080/youth-policy/new
 - H2 데이터베이스 콘솔: http://localhost:8080/h2-console
 
+http://localhost:8080
+
+
 ## 주요 기능
 - 청년 정책 목록 조회
 - 정책 상세 정보 보기

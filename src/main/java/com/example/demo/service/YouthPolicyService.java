@@ -1,6 +1,8 @@
 package com.example.demo.service;
 
 import com.example.demo.domain.YouthPolicy;
+import com.example.demo.exception.ApiException;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.YouthPolicyRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -46,7 +48,7 @@ public class YouthPolicyService {
     @Transactional
     public YouthPolicy update(Long id, YouthPolicy updatePolicy) {
         YouthPolicy existingPolicy = youthPolicyRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("정책을 찾을 수 없습니다. ID: " + id));
+                .orElseThrow(() -> new com.example.demo.exception.ResourceNotFoundException("정책을 찾을 수 없습니다. ID: " + id));
         
         existingPolicy.setTitle(updatePolicy.getTitle());
         existingPolicy.setCategory(updatePolicy.getCategory());
@@ -68,6 +70,9 @@ public class YouthPolicyService {
     // 정책 삭제
     @Transactional
     public void deleteById(Long id) {
+        if (!youthPolicyRepository.existsById(id)) {
+            throw new ResourceNotFoundException("삭제할 정책을 찾을 수 없습니다. ID: " + id);
+        }
         youthPolicyRepository.deleteById(id);
     }
     
@@ -119,6 +124,20 @@ public class YouthPolicyService {
     }
     
     /**
+     * 카테고리별 정책 수 조회 (디버그용)
+     */
+    public long countByCategory(String category) {
+        return youthPolicyRepository.findByCategory(category).size();
+    }
+    
+    /**
+     * 전체 정책 수 조회
+     */
+    public long countAll() {
+        return youthPolicyRepository.count();
+    }
+    
+    /**
      * 온통청년 API 연결 테스트
      */
     public boolean testApiConnection() {
@@ -167,7 +186,7 @@ public class YouthPolicyService {
             
         } catch (Exception e) {
             log.error("온통청년 API 데이터 로드 중 오류 발생: {}", e.getMessage(), e);
-            throw new RuntimeException("온통청년 API 데이터 로드 실패", e);
+            throw new ApiException("온통청년 API 데이터 로드 실패", e);
         }
     }
     

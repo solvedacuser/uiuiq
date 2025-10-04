@@ -1,0 +1,277 @@
+/* 
+ * 청년 정책 모음 사이트 - 공통 스타일
+ * 모든 페이지에서 공유하는 스타일 정의
+ */
+
+/* CSS 변수 정의 */
+:root {
+    /* 색상 */
+    --primary-color: #667eea;
+    --secondary-color: #764ba2;
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+    --info-color: #17a2b8;
+    --dark-color: #343a40;
+    --light-color: #f8f9fa;
+    
+    /* 간격 */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 2rem;
+    --spacing-xl: 3rem;
+    
+    /* 폰트 크기 */
+    --font-size-sm: 0.875rem;
+    --font-size-base: 1rem;
+    --font-size-lg: 1.25rem;
+    --font-size-xl: 1.5rem;
+    
+    /* 그림자 */
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.15);
+    
+    /* 테두리 */
+    --border-radius: 0.25rem;
+    --border-radius-lg: 0.5rem;
+}
+
+/* 공통 레이아웃 */
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-content {
+    flex: 1;
+}
+
+/* 그라디언트 헤더 섹션 */
+.gradient-header {
+    background: var(--primary-gradient);
+    color: white;
+    padding: 60px 0;
+    text-align: center;
+}
+
+.gradient-header h1 {
+    margin-bottom: var(--spacing-lg);
+}
+
+/* 카드 스타일 */
+.policy-card {
+    border-left: 4px solid var(--primary-color);
+    transition: all 0.3s ease;
+    border-radius: var(--border-radius);
+    background: white;
+}
+
+.policy-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.category-card {
+    transition: transform 0.3s ease;
+    border: none;
+    box-shadow: var(--shadow-sm);
+    border-radius: var(--border-radius-lg);
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+/* 검색 섹션 */
+.search-section {
+    background: var(--primary-gradient);
+    color: white;
+    padding: 40px 0;
+}
+
+/* 카테고리 필터 */
+.category-filter {
+    background-color: var(--light-color);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-lg);
+    margin-bottom: 30px;
+}
+
+/* 배지 스타일 */
+.badge-status-active {
+    background-color: var(--success-color);
+}
+
+.badge-status-closed {
+    background-color: var(--danger-color);
+}
+
+.badge-status-upcoming {
+    background-color: var(--warning-color);
+    color: var(--dark-color);
+}
+
+.badge-status-suspended {
+    background-color: #6c757d;
+}
+
+/* 통계 카드 */
+.stats-card {
+    background: linear-gradient(45deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-lg);
+    transition: transform 0.3s ease;
+}
+
+.stats-card:hover {
+    transform: scale(1.05);
+}
+
+/* 에러 페이지 */
+.error-container {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.error-content {
+    text-align: center;
+    max-width: 600px;
+}
+
+.error-icon {
+    font-size: 6rem;
+    color: var(--danger-color);
+    margin-bottom: var(--spacing-lg);
+}
+
+/* 폼 스타일 */
+.form-card {
+    border: none;
+    box-shadow: var(--shadow-md);
+    border-radius: var(--border-radius-lg);
+}
+
+.form-header {
+    background: var(--primary-gradient);
+    color: white;
+    padding: 40px 0;
+    text-align: center;
+}
+
+.required::after {
+    content: " *";
+    color: var(--danger-color);
+}
+
+/* 테이블 스타일 (Board용) */
+.board-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: var(--shadow-sm);
+    border-radius: var(--border-radius);
+}
+
+.board-table th,
+.board-table td {
+    padding: var(--spacing-md);
+    text-align: left;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.board-table th {
+    background-color: var(--light-color);
+    font-weight: 600;
+    color: var(--dark-color);
+}
+
+.board-table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+.board-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* 버튼 스타일 확장 */
+.btn-gradient {
+    background: var(--primary-gradient);
+    color: white;
+    border: none;
+    transition: opacity 0.3s ease;
+}
+
+.btn-gradient:hover {
+    opacity: 0.9;
+    color: white;
+}
+
+/* 페이지네이션 스타일 개선 */
+.pagination .page-link {
+    color: var(--primary-color);
+}
+
+.pagination .page-item.active .page-link {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .gradient-header {
+        padding: 40px 0;
+    }
+    
+    .gradient-header h1 {
+        font-size: 1.75rem;
+    }
+    
+    .stats-card {
+        margin-bottom: var(--spacing-md);
+    }
+}
+
+/* 유틸리티 클래스 */
+.text-gradient {
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.shadow-hover {
+    transition: box-shadow 0.3s ease;
+}
+
+.shadow-hover:hover {
+    box-shadow: var(--shadow-lg);
+}
+
+/* 로딩 애니메이션 (향후 사용) */
+.spinner {
+    border: 3px solid var(--light-color);
+    border-top: 3px solid var(--primary-color);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 푸터 고정 */
+footer {
+    margin-top: auto;
+}
+

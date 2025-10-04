@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import com.example.demo.domain.YouthPolicy;
-import com.example.demo.repository.YouthPolicyRepository;
 import com.example.demo.service.YouthPolicyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +24,6 @@ import java.util.Optional;
 public class YouthPolicyController {
     
     private final YouthPolicyService youthPolicyService;
-    private final YouthPolicyRepository youthPolicyRepository;
     
     // 메인 페이지 (정책 목록)
     @GetMapping({"", "/", "/list"})
@@ -280,7 +278,7 @@ public class YouthPolicyController {
         Map<String, Object> debug = new HashMap<>();
         
         // 전체 정책 수
-        long totalPolicies = youthPolicyRepository.count();
+        long totalPolicies = youthPolicyService.countAll();
         debug.put("totalPolicies", totalPolicies);
         
         // 카테고리별 정책 수
@@ -288,11 +286,8 @@ public class YouthPolicyController {
         debug.put("categoryStats", categoryStats);
         
         // 취업 카테고리 상세
-        List<YouthPolicy> employmentPolicies = youthPolicyRepository.findByCategory("취업");
-        debug.put("employmentPoliciesCount", employmentPolicies.size());
-        debug.put("employmentPoliciesActive", employmentPolicies.stream()
-            .filter(p -> p.getStatus() == YouthPolicy.PolicyStatus.ACTIVE)
-            .count());
+        long employmentPoliciesCount = youthPolicyService.countByCategory("취업");
+        debug.put("employmentPoliciesCount", employmentPoliciesCount);
         
         return debug;
     }
@@ -308,7 +303,7 @@ public class YouthPolicyController {
             int count = youthPolicyService.loadPoliciesFromApi();
             result.put("success", true);
             result.put("loadedCount", count);
-            result.put("totalPolicies", youthPolicyRepository.count());
+            result.put("totalPolicies", youthPolicyService.countAll());
             result.put("message", "API 호출 성공: " + count + "개 로드됨");
             log.info("===== API 호출 테스트 완료: {}개 =====", count);
         } catch (Exception e) {

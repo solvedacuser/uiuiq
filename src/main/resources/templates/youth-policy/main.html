@@ -1,50 +1,15 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <th:block th:replace="~{fragments/layout :: head}"></th:block>
     <title>청년 정책 모음 사이트</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        .hero-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 60px 0;
-        }
-        .category-card {
-            transition: transform 0.3s ease;
-            border: none;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .category-card:hover {
-            transform: translateY(-5px);
-        }
-        .policy-card {
-            border-left: 4px solid #667eea;
-        }
-        .stats-card {
-            background: linear-gradient(45deg, #f093fb 0%, #f5576c 100%);
-            color: white;
-        }
-    </style>
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="/youth-policy/main">
-                <i class="fas fa-graduation-cap me-2"></i>청년 정책 모음
-            </a>
-            <div class="navbar-nav ms-auto">
-                <a class="nav-link" href="/youth-policy/list">정책 목록</a>
-                <a class="nav-link" href="/youth-policy/new">정책 등록</a>
-            </div>
-        </div>
-    </nav>
+    <nav th:replace="~{fragments/layout :: navbar}"></nav>
 
     <!-- Hero Section -->
-    <section class="hero-section text-center">
+    <section class="gradient-header text-center">
         <div class="container">
             <h1 class="display-4 mb-4">청년을 위한 정책 정보</h1>
             <p class="lead mb-4">다양한 청년 지원 정책을 한 곳에서 확인하고 신청하세요</p>
@@ -180,13 +145,10 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-dark text-light py-4">
-        <div class="container text-center">
-            <p>&copy; 2024 청년 정책 모음 사이트. 모든 권리 보유.</p>
-        </div>
-    </footer>
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Scripts -->
+    <th:block th:replace="~{fragments/layout :: scripts}"></th:block>
 </body>
 </html>
 

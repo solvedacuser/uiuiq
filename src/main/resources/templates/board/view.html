@@ -1,36 +1,82 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>게시글 보기</title>
-    <meta charset="UTF-8">
-    <style>
-        .board-view { margin: 20px; }
-        .board-header { margin-bottom: 20px; }
-        .board-content { margin: 20px 0; min-height: 200px; }
-        .btn-group { margin-top: 15px; }
-        .btn-group a { margin-right: 10px; }
-    </style>
+    <th:block th:replace="~{fragments/layout :: head}"></th:block>
+    <title th:text="${board.title} + ' - 게시판'">게시글 - 게시판</title>
 </head>
 <body>
-    <div class="board-view">
-        <div class="board-header">
-            <h2 th:text="${board.title}">제목</h2>
-            <p>
-                작성자: <span th:text="${board.author}">작성자</span> | 
-                작성일: <span th:text="${#temporals.format(board.createdDate, 'yyyy-MM-dd HH:mm')}">2023-01-01</span>
-            </p>
+    <!-- Navigation -->
+    <nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+    <!-- Header Section -->
+    <section class="gradient-header">
+        <div class="container">
+            <h1 class="display-6">
+                <i class="fas fa-file-alt me-2"></i>게시글 상세
+            </h1>
         </div>
-        
-        <div class="board-content">
-            <p th:text="${board.content}">내용</p>
-        </div>
-        
-        <div class="btn-group">
-            <a th:href="@{/board/edit/{id}(id=${board.id})}">수정</a>
-            <a th:href="@{/board/delete/{id}(id=${board.id})}" 
-               onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
-            <a href="/board/list">목록</a>
+    </section>
+
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <!-- Board Content Card -->
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-light">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h3 class="mb-0" th:text="${board.title}">제목</h3>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <span class="badge bg-secondary">
+                                    <i class="fas fa-user me-1"></i>
+                                    <span th:text="${board.author}">작성자</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <small class="text-muted">
+                                <i class="fas fa-clock me-1"></i>
+                                작성일: <span th:text="${#temporals.format(board.createdDate, 'yyyy-MM-dd HH:mm')}">2023-01-01</span>
+                                <span th:if="${board.modifiedDate != null and board.modifiedDate != board.createdDate}">
+                                    | 수정일: <span th:text="${#temporals.format(board.modifiedDate, 'yyyy-MM-dd HH:mm')}">2023-01-01</span>
+                                </span>
+                            </small>
+                        </div>
+                        <hr>
+                        <div class="content-area" style="min-height: 300px; white-space: pre-wrap;" 
+                             th:text="${board.content}">
+                            내용
+                        </div>
+                    </div>
+                    <div class="card-footer bg-light">
+                        <div class="d-flex justify-content-between">
+                            <a href="/board/list" class="btn btn-secondary">
+                                <i class="fas fa-list me-1"></i>목록으로
+                            </a>
+                            <div>
+                                <a th:href="@{/board/edit/{id}(id=${board.id})}" class="btn btn-outline-primary">
+                                    <i class="fas fa-edit me-1"></i>수정
+                                </a>
+                                <a th:href="@{/board/delete/{id}(id=${board.id})}" 
+                                   class="btn btn-outline-danger"
+                                   onclick="return confirm('정말 삭제하시겠습니까?')">
+                                    <i class="fas fa-trash me-1"></i>삭제
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
+    <!-- Footer -->
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+
+    <!-- Scripts -->
+    <th:block th:replace="~{fragments/layout :: scripts}"></th:block>
 </body>
 </html>

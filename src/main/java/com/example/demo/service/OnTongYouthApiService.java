@@ -69,7 +69,7 @@ public class OnTongYouthApiService {
         
         try {
             // 완전한 URL 생성
-            String fullUrl = String.format("%s?apiKeyNm=%s&pageNum=1&pageSize=100&rtnType=json", 
+            String fullUrl = String.format("%s?apiKeyNm=%s&pageNum=1&pageSize=250&rtnType=json", 
                 apiUrl, apiKey);
             log.info("완전한 요청 URL: {}", fullUrl);
             
